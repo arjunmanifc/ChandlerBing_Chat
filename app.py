@@ -12,8 +12,12 @@ from langchain_core.prompts import (
 st.set_page_config(page_title="Chandler Bing Chatbot", page_icon="💬")
 st.title("💬 Chat with Chandler Bing")
 
-# Prompt for API key
-os.environ["OPENAI_API_KEY"] = "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"
+# Load API key from Streamlit secrets
+api_key = st.secrets.get("OPENAI_API_KEY")
+if not api_key:
+    st.error("OpenAI API key not found. Please add OPENAI_API_KEY to Streamlit secrets.")
+    st.stop()
+os.environ["OPENAI_API_KEY"] = api_key
 
 # Initialize chat history and sending flag in session state
 if "history" not in st.session_state:
